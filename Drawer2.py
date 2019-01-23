@@ -31,17 +31,19 @@ def Draw():
     """Grabs a 2d array of the pixels of the drawing interface."""
     screen_array = pygame.surfarray.pixels2d(screen)
 
-    """Modifying the array (from 128x128 to 8x8 pixels) and turning it into a 1d list (desired output)."""
+    """Modifying the array (from 112x112 to 28x28 pixels) and turning it into a 1d list."""
     lst = []
     row_col_num = [i for i in range(1, 29)]
     for j in row_col_num:
         for i in row_col_num:
             lst.append((1 - (sum(sum(screen_array[i*4-4:i*4, j*4-4:j*4])) / 16 / 16777215)))
 
+    """Turning the list into a np.array and reshape it into a 2d 28x28 array (desired output)."""
     array = np.array(lst)
-    array.reshape(28, 28)
+    new_array = np.reshape(array, (28, 28))
 
     """Quitting Pygame."""
     pygame.quit()
 
-    return array
+    return new_array
+

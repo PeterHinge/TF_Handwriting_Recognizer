@@ -35,15 +35,39 @@ model.compile(
 
 model.fit(x_train, y_train, epochs=5)
 
+
+"""Using test sample to check for model overfitting."""
+test_loss, test_acc = model.evaluate(x_test, y_test)
+print(test_loss)
+print(test_acc)
+
+
 draw_exit = False
 while draw_exit == False:
-    new_label = model.predict([[Draw()]])
+    new_digit = Draw()
+
+    model_prediction = model.predict([[new_digit]])
 
 
-    prediction = np.argmax(new_label)
+    plt.figure(figsize=(10, 5))
 
 
-    print(prediction)
+    plt.subplot(1, 2, 1)
+    plt.imshow(new_digit, cmap=plt.cm.binary)
+
+
+    plt.subplot(1, 2, 2)
+    plt.xticks([i for i in range(10)])
+    plt.bar(range(10), model_prediction[0][0:10], color="#777777")
+    plt.ylim(0.0, 1.0)
+
+
+    plt.show()
+
+    """Makes predicted output to the terminal."""
+    prediction = np.argmax(model_prediction)
+    print("The prediction of the new digit is: {}".format(prediction))
+
     print("Do you wish to exit? (Y for yes, all other for no)")
     if input() == "Y":
         draw_exit = True
